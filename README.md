@@ -98,7 +98,7 @@ end
 # Get a collection of sessions
 sessions = client.sessions
 sessions.each do |session|
-  puts "Session ID: #{session.id}, Prompt: #{session[:prompt]}"
+  puts "Session ID: #{session.session_id}, Prompt: #{session[:prompt]}"
 end
 
 # Create a new session
