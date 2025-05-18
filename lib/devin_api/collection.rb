@@ -35,7 +35,6 @@ module DevinApi
                      []
                    end
 
-      @next_cursor = response['pagination'] && response['pagination']['next_cursor']
       @resources
     end
 
@@ -49,10 +48,8 @@ module DevinApi
     end
 
     def next_page
-      return nil unless @next_cursor
-
       new_options = @options.dup
-      new_options[:cursor] = @next_cursor
+      new_options[:offset] = calculate_next_offset
       self.class.new(@client, @resource_class, new_options)
     end
 
@@ -63,6 +60,16 @@ module DevinApi
     def create(attributes = {})
       response = client.post(path, attributes)
       resource_class.new(client, response)
+    end
+
+    private
+
+    def offset
+      @options[:offset] || 0
+    end
+
+    def calculate_next_offset
+      offset + (@options[:limit] || @resources.size)
     end
   end
 end
