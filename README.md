@@ -1,5 +1,6 @@
 # Devin API Client
 [![Test](https://github.com/smasato/devin_api_client_rb/actions/workflows/rspec.yml/badge.svg)](https://github.com/smasato/devin_api_client_rb/actions/workflows/rspec.yml?query=branch%3Amain)
+[![Gem Version](https://badge.fury.io/rb/devin_api.svg)](https://badge.fury.io/rb/devin_api)
 
 This Ruby gem is a client for the Devin API.
 
@@ -42,7 +43,7 @@ sessions = client.list_sessions(limit: 10)
 puts "Sessions: #{sessions}"
 
 new_session = client.create_session(prompt: 'Build a simple web app')
-session_id = new_session['id']
+session_id = new_session['session_id']
 puts "Created session: #{session_id}"
 
 session_details = client.get_session(session_id)
@@ -76,7 +77,7 @@ new_knowledge = client.create_knowledge(
 knowledge_id = new_knowledge['id']
 puts "Created knowledge: #{knowledge_id}"
 
-# Enterprise (for enterprise customers)
+# Enterprise (for enterprise customers), Currently not tested!
 audit_logs = client.list_audit_logs(start_time: '2023-01-01T00:00:00Z')
 puts "Audit logs: #{audit_logs}"
 
