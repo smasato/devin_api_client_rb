@@ -53,10 +53,16 @@ module DevinApi
     # Executes a POST request
     # @param [String] path The path to request
     # @param [Hash] params Body parameters
-    # @return [Hash] Response body
+    # @return [Hash, String] Response body
     def post(path, params = {})
       response = connection.post(path) do |req|
-        req.body = params.to_json
+        if params.values.any? { |v| v.is_a?(Faraday::UploadIO) }
+          req.headers['Content-Type'] = 'multipart/form-data'
+          req.body = params
+        else
+          req.headers['Content-Type'] = 'application/json'
+          req.body = params.to_json
+        end
       end
       parse_response(response)
     end
@@ -93,8 +99,8 @@ module DevinApi
         conn.response :json, content_type: /\bjson$/
 
         # Request middlewares
-        conn.request :json
         conn.request :multipart
+        conn.request :json
 
         # Authentication
         conn.headers['Authorization'] = "Bearer #{config.access_token}"
