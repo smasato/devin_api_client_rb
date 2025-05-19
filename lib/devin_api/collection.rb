@@ -48,6 +48,8 @@ module DevinApi
     end
 
     def next_page
+      raise DevinApi::Error::PaginationNotSupported, "Pagination is not supported for #{resource_class.name}" unless resource_class.pagination_supported?
+
       new_options = @options.dup
       new_options[:offset] = calculate_next_offset
       self.class.new(@client, @resource_class, new_options)

@@ -32,5 +32,6 @@ module DevinApi
     class Forbidden < ClientError; end
     class NotFound < ClientError; end
     class RateLimited < ClientError; end
+    class PaginationNotSupported < ClientError; end
   end
 end
