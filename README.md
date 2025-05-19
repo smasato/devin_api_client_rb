@@ -111,9 +111,9 @@ session = client.session('session_id')
 # Send a message to the session
 response = session.send_message('How do I start?')
 
-# Upload files to the session
-files = [File.open('path/to/file.txt')]
-upload_response = session.upload_files(files)
+# Upload file
+file = File.open('path/to/file.txt')
+upload_response = client.attachment.upload_file(file)
 
 # Update session tags
 session.update_tags(['web', 'app'])
