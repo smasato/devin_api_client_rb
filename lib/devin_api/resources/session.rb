@@ -6,6 +6,10 @@ module DevinApi
   module Resources
     # Session resource for the Devin API
     class Session < Base
+      def self.pagination_supported?
+        true
+      end
+
       def path
         "/v1/session/#{session_id}"
       end

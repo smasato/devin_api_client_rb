@@ -19,7 +19,7 @@ RSpec.describe DevinApi::Endpoints::Knowledge do
 
   describe '#list_knowledge' do
     before do
-      stub_request(:get, 'https://api.devin.ai/v1/knowledge')
+      stub_request(:get, 'https://api.example.com/v1/knowledge')
         .to_return(
           status: 200,
           body: '{
@@ -60,7 +60,7 @@ RSpec.describe DevinApi::Endpoints::Knowledge do
 
   describe '#create_knowledge' do
     before do
-      stub_request(:post, 'https://api.devin.ai/v1/knowledge')
+      stub_request(:post, 'https://api.example.com/v1/knowledge')
         .with(
           body: {
             body: 'Navigate to weather.com',
@@ -102,7 +102,7 @@ RSpec.describe DevinApi::Endpoints::Knowledge do
 
   describe '#update_knowledge' do
     before do
-      stub_request(:put, 'https://api.devin.ai/v1/knowledge/note-xxx')
+      stub_request(:put, 'https://api.example.com/v1/knowledge/note-xxx')
         .with(
           body: {
             body: 'Navigate to weather.com or use the weather API',
@@ -141,7 +141,7 @@ RSpec.describe DevinApi::Endpoints::Knowledge do
 
   describe '#delete_knowledge' do
     before do
-      stub_request(:delete, 'https://api.devin.ai/v1/knowledge/note-xxx')
+      stub_request(:delete, 'https://api.example.com/v1/knowledge/note-xxx')
         .to_return(
           status: 204,
           body: nil,

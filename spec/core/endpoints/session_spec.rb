@@ -7,7 +7,7 @@ RSpec.describe DevinApi::Endpoints::Session do
 
   describe '#get_session' do
     before do
-      stub_request(:get, 'https://api.devin.ai/v1/session/devin-xxx')
+      stub_request(:get, 'https://api.example.com/v1/session/devin-xxx')
         .to_return(
           status: 200,
           body: '{
@@ -37,7 +37,7 @@ RSpec.describe DevinApi::Endpoints::Session do
 
   describe '#send_message' do
     before do
-      stub_request(:post, 'https://api.devin.ai/v1/session/devin-xxx/messages')
+      stub_request(:post, 'https://api.example.com/v1/session/devin-xxx/messages')
         .with(
           body: { message: 'Can you explain this code?' }.to_json,
           headers: { 'Content-Type' => 'application/json' }
@@ -60,7 +60,7 @@ RSpec.describe DevinApi::Endpoints::Session do
 
   describe '#update_session_tags' do
     before do
-      stub_request(:put, 'https://api.devin.ai/v1/session/devin-xxx/tags')
+      stub_request(:put, 'https://api.example.com/v1/session/devin-xxx/tags')
         .with(
           body: { tags: %w[web api] }.to_json,
           headers: { 'Content-Type' => 'application/json' }

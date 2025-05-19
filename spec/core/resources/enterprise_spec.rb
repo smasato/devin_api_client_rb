@@ -6,6 +6,12 @@ RSpec.describe DevinApi::Resources::Enterprise do
   let(:attributes) { { 'id' => 'ent-123', 'name' => 'Test Enterprise' } }
   subject { DevinApi::Resources::Enterprise.new(client, attributes) }
 
+  describe '.pagination_supported?' do
+    it 'returns false' do
+      expect(DevinApi::Resources::Enterprise.pagination_supported?).to be(false)
+    end
+  end
+
   describe '#initialize' do
     it 'inherits from Base resource' do
       expect(subject).to be_a(DevinApi::Resources::Base)

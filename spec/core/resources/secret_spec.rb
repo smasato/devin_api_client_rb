@@ -6,6 +6,12 @@ RSpec.describe DevinApi::Resources::Secret do
   let(:attributes) { { 'id' => 'sec-123', 'name' => 'API_KEY', 'value' => 'secret-value' } }
   subject { DevinApi::Resources::Secret.new(client, attributes) }
 
+  describe '.pagination_supported?' do
+    it 'returns false' do
+      expect(DevinApi::Resources::Secret.pagination_supported?).to be(false)
+    end
+  end
+
   describe '#initialize' do
     it 'inherits from Base resource' do
       expect(subject).to be_a(DevinApi::Resources::Base)
@@ -20,7 +26,7 @@ RSpec.describe DevinApi::Resources::Secret do
 
   describe '#create' do
     before do
-      stub_request(:post, 'https://api.devin.ai/v1/secrets')
+      stub_request(:post, 'https://api.example.com/v1/secrets')
         .with(
           headers: { 'Authorization' => 'Bearer test_token' },
           body: { 'name' => 'NEW_KEY', 'value' => 'new-value' }
@@ -43,7 +49,7 @@ RSpec.describe DevinApi::Resources::Secret do
 
   describe '#delete' do
     before do
-      stub_request(:delete, 'https://api.devin.ai/v1/secrets/sec-123')
+      stub_request(:delete, 'https://api.example.com/v1/secrets/sec-123')
         .with(headers: { 'Authorization' => 'Bearer test_token' })
         .to_return(
           status: 200,

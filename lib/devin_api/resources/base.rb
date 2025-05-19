@@ -56,6 +56,10 @@ module DevinApi
           response = client.post(resource_path, attributes)
           new(client, response)
         end
+
+        def pagination_supported?
+          false
+        end
       end
     end
   end

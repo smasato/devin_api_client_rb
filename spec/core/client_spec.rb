@@ -21,7 +21,7 @@ RSpec.describe DevinApi::Client do
     it 'should raise an exception when access_token is not provided' do
       expect do
         DevinApi::Client.new do |config|
-          config.url = 'https://api.devin.ai'
+          config.url = 'https://api.example.com'
         end
       end.to raise_error(ArgumentError, 'access_token must be provided')
     end
@@ -29,7 +29,7 @@ RSpec.describe DevinApi::Client do
     it 'should handle valid url and access_token' do
       expect do
         DevinApi::Client.new do |config|
-          config.url = 'https://api.devin.ai'
+          config.url = 'https://api.example.com'
           config.access_token = 'test_token'
         end
       end.not_to raise_error
@@ -52,13 +52,13 @@ RSpec.describe DevinApi::Client do
 
   context 'endpoints' do
     before do
-      stub_json_request(:get, 'https://api.devin.ai/v1/sessions')
+      stub_json_request(:get, 'https://api.example.com/v1/sessions')
         .to_return(status: 200, body: '{"sessions":[]}', headers: { 'Content-Type' => 'application/json' })
 
-      stub_json_request(:get, 'https://api.devin.ai/v1/secrets')
+      stub_json_request(:get, 'https://api.example.com/v1/secrets')
         .to_return(status: 200, body: '{"secrets":[]}', headers: { 'Content-Type' => 'application/json' })
 
-      stub_json_request(:get, 'https://api.devin.ai/v1/knowledges')
+      stub_json_request(:get, 'https://api.example.com/v1/knowledges')
         .to_return(status: 200, body: '{"knowledges":[]}', headers: { 'Content-Type' => 'application/json' })
     end
 
