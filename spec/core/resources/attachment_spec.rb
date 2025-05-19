@@ -6,6 +6,12 @@ RSpec.describe DevinApi::Resources::Attachment do
   let(:attributes) { { 'id' => 'file-123', 'filename' => 'test.txt' } }
   subject { DevinApi::Resources::Attachment.new(client, attributes) }
 
+  describe '.pagination_supported?' do
+    it 'returns false' do
+      expect(DevinApi::Resources::Attachment.pagination_supported?).to be(false)
+    end
+  end
+
   describe '#initialize' do
     it 'inherits from Base resource' do
       expect(subject).to be_a(DevinApi::Resources::Base)

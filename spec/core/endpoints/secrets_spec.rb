@@ -19,7 +19,7 @@ RSpec.describe DevinApi::Endpoints::Secrets do
 
   describe '#list_secrets' do
     before do
-      stub_request(:get, 'https://api.devin.ai/v1/secrets')
+      stub_request(:get, 'https://api.example.com/v1/secrets')
         .to_return(
           status: 200,
           body: '{
@@ -48,7 +48,7 @@ RSpec.describe DevinApi::Endpoints::Secrets do
 
   describe '#delete_secret' do
     before do
-      stub_request(:delete, 'https://api.devin.ai/v1/secrets/sec_xxx')
+      stub_request(:delete, 'https://api.example.com/v1/secrets/sec_xxx')
         .to_return(
           status: 204,
           body: nil,

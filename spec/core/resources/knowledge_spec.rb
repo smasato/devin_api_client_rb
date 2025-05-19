@@ -3,15 +3,14 @@
 require 'core/spec_helper'
 
 RSpec.describe DevinApi::Resources::Knowledge do
-  let(:client) do
-    DevinApi::Client.new do |config|
-      config.url = 'https://api.devin.ai'
-      config.access_token = 'test_token'
-    end
-  end
-
   let(:attributes) { { 'id' => 'k-123', 'title' => 'Test Document', 'content' => 'Test content' } }
   subject { DevinApi::Resources::Knowledge.new(client, attributes) }
+
+  describe '.pagination_supported?' do
+    it 'returns false' do
+      expect(DevinApi::Resources::Knowledge.pagination_supported?).to be(false)
+    end
+  end
 
   describe '#initialize' do
     it 'inherits from Base resource' do

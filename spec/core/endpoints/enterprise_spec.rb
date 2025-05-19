@@ -15,7 +15,7 @@ RSpec.describe DevinApi::Endpoints::Enterprise do
 
   describe '#list_audit_logs' do
     before do
-      stub_request(:get, 'https://api.devin.ai/v1/enterprise/audit-logs')
+      stub_request(:get, 'https://api.example.com/v1/enterprise/audit-logs')
         .to_return(
           status: 200,
           body: '{
@@ -40,7 +40,7 @@ RSpec.describe DevinApi::Endpoints::Enterprise do
 
   describe '#get_enterprise_consumption' do
     before do
-      stub_request(:get, 'https://api.devin.ai/v1/enterprise/consumption')
+      stub_request(:get, 'https://api.example.com/v1/enterprise/consumption')
         .to_return(
           status: 200,
           body: '{

@@ -13,7 +13,7 @@ end
 
 def client
   @client ||= DevinApi::Client.new do |config|
-    config.url = 'https://api.devin.ai'
+    config.url = 'https://api.example.com'
     config.access_token = 'test_token'
     config.logger = Logger.new(File::NULL)
   end

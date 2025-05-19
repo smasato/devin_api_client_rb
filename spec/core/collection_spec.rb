@@ -3,11 +3,14 @@
 require 'core/spec_helper'
 
 RSpec.describe DevinApi::Collection do
-  subject { DevinApi::Collection.new(client, DevinApi::Resources::Session) }
+  subject { DevinApi::Collection.new(client, resource_class, options) }
+
+  let(:resource_class) { DevinApi::Resources::Session }
+  let(:options) { {} }
 
   context 'initialization' do
     it 'should set the resource class' do
-      expect(subject.instance_variable_get(:@resource_class)).to eq(DevinApi::Resources::Session)
+      expect(subject.instance_variable_get(:@resource_class)).to eq(resource_class)
     end
 
     it 'should initially be empty' do
@@ -16,7 +19,7 @@ RSpec.describe DevinApi::Collection do
   end
 
   context 'with array option passed in' do
-    subject { DevinApi::Collection.new(client, DevinApi::Resources::Session, ids: [1, 2, 3, 4]) }
+    let(:options) { { ids: [1, 2, 3, 4] } }
 
     it 'should join array with commas' do
       expect(subject.instance_variable_get(:@options)[:ids]).to eq('1,2,3,4')
@@ -25,7 +28,7 @@ RSpec.describe DevinApi::Collection do
 
   context 'fetching resources' do
     before do
-      stub_request(:get, 'https://api.devin.ai/v1/sessions')
+      stub_request(:get, 'https://api.example.com/v1/sessions')
         .to_return(
           status: 200,
           body: '{"sessions":[{"id":"s-123","session_id":"s-123","status":"active"},
@@ -47,7 +50,7 @@ RSpec.describe DevinApi::Collection do
 
   context 'creating resources' do
     before do
-      stub_request(:post, 'https://api.devin.ai/v1/sessions')
+      stub_request(:post, 'https://api.example.com/v1/sessions')
         .with(
           headers: { 'Authorization' => 'Bearer test_token', 'Content-Type' => 'application/json' },
           body: { 'name' => 'New Session' }.to_json
@@ -70,7 +73,7 @@ RSpec.describe DevinApi::Collection do
 
   context 'finding a resource' do
     before do
-      stub_request(:get, 'https://api.devin.ai/v1/sessions/s-123')
+      stub_request(:get, 'https://api.example.com/v1/sessions/s-123')
         .to_return(
           status: 200,
           body: '{"id":"s-123","session_id":"s-123","status":"active"}',
@@ -83,6 +86,59 @@ RSpec.describe DevinApi::Collection do
       expect(resource).to be_a(DevinApi::Resources::Session)
       expect(resource.id).to eq('s-123')
       expect(resource.status).to eq('active')
+    end
+  end
+
+  context 'pagination' do
+    context 'when pagination is supported' do
+      let(:options) { { limit: 2 } }
+      before do
+        stub_request(:get, 'https://api.example.com/v1/sessions?limit=2')
+          .with(
+            headers: { 'Authorization' => 'Bearer test_token' }
+          )
+          .to_return(
+            status: 200,
+            body: '{"sessions":[{"id":"s-123","session_id":"s-123","status":"active"},
+                   {"id":"s-456","session_id":"s-456","status":"inactive"}]}',
+            headers: { 'Content-Type' => 'application/json' }
+          )
+
+        stub_request(:get, 'https://api.example.com/v1/sessions?limit=2&offset=2')
+          .with(
+            headers: { 'Authorization' => 'Bearer test_token' }
+          )
+          .to_return(
+            status: 200,
+            body: '{"sessions":[{"id":"s-789","session_id":"s-789","status":"active"},
+                   {"id":"s-012","session_id":"s-012","status":"inactive"}]}',
+            headers: { 'Content-Type' => 'application/json' }
+          )
+      end
+
+      it 'should fetch first page of resources' do
+        resources = subject.fetch
+        expect(resources.length).to eq(2)
+        expect(resources.first.id).to eq('s-123')
+        expect(resources.last.id).to eq('s-456')
+      end
+
+      it 'should fetch next page of resources' do
+        subject.fetch
+        next_page = subject.next_page
+        resources = next_page.fetch
+        expect(resources.length).to eq(2)
+        expect(resources.first.id).to eq('s-789')
+        expect(resources.last.id).to eq('s-012')
+      end
+    end
+
+    context 'when pagination is not supported' do
+      let(:resource_class) { DevinApi::Resources::Attachment }
+
+      it 'should raise PaginationNotSupported error' do
+        expect { subject.next_page }.to raise_error(DevinApi::Error::PaginationNotSupported)
+      end
     end
   end
 end

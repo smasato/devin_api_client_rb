@@ -13,6 +13,12 @@ RSpec.describe DevinApi::Resources::Base do
   let(:attributes) { { 'id' => 1, 'name' => 'Test Resource' } }
   subject { DevinApi::Resources::Base.new(client, attributes) }
 
+  describe '.pagination_supported?' do
+    it 'returns false by default' do
+      expect(DevinApi::Resources::Base.pagination_supported?).to be(false)
+    end
+  end
+
   describe '#initialize' do
     it 'sets client instance' do
       expect(subject.client).to eq(client)
