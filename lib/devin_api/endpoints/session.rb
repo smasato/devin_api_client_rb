@@ -21,7 +21,7 @@ module DevinApi
       # @option params [String] :message The message to send (required)
       # @return [Hash] Response body
       def send_message(session_id, params = {})
-        post("/v1/session/#{session_id}/messages", params)
+        post("/v1/session/#{session_id}/message", params)
       end
 
       # Update session tags

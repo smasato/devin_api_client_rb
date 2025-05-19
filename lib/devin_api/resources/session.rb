@@ -15,7 +15,7 @@ module DevinApi
       end
 
       def send_message(message)
-        client.post("#{path}/messages", { message: message })
+        client.post("#{path}/message", { message: message })
       end
 
       def update_tags(tags)

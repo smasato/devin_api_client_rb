@@ -37,7 +37,7 @@ RSpec.describe DevinApi::Endpoints::Session do
 
   describe '#send_message' do
     before do
-      stub_request(:post, 'https://api.example.com/v1/session/devin-xxx/messages')
+      stub_request(:post, 'https://api.example.com/v1/session/devin-xxx/message')
         .with(
           body: { message: 'Can you explain this code?' }.to_json,
           headers: { 'Content-Type' => 'application/json' }
